@@ -12,7 +12,7 @@ Les membres du goupe sont :
 
 ### Description du projet
 
-Notre projet consiste en l'implémentation d'une application permettant à des utilisateurs de créer, modifier et terminer des tâches. Le but est que chaque utilisateur ait sa liste de tâches personnalisée et qu'il puisse la partager avec d'autres utilisateurs.
+Notre projet consiste en l'implémentation d'une application permettant à des utilisateurs de créer, modifier et terminer des tâches. Le but est que chaque utilisateur ait sa liste de tâches personnalisée et si le temps le permet ajouter le partage avec d'autres utilisateurs.
 
 La création d'une tâche se veut très simple sur l'interface en fournissant simplement un texte court. La terminaison d'une tâche doit se faire simplement en cochant une case affichée à gauche du texte.
 
