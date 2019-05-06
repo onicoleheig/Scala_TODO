@@ -6,11 +6,9 @@ Ce document présente le projet TODO réalisé dans le cadre du cours Scala 2018
 
 Les membres du goupe sont :
 
-​		Caduff Max
-
-​		Nanchen Lionel
-
-​		Nicole soit Nicoulaz Olivier
+- Caduff Max
+- Nanchen Lionel
+- Nicole soit Nicoulaz Olivier
 
 ### Description du projet
 
