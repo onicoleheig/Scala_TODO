@@ -14,6 +14,7 @@ import Notification from '../components/Notification';
 import userImg from '../assets/images/user_icon.png';
 import backgroundImg from '../assets/images/background.jpg';
 import Task from '../components/Task';
+import TaskList from '../components/TaskList';
 
 
 const recipes = [];
@@ -134,10 +135,29 @@ let subtasks = [
   },
 ];
 
+let tasks = [
+  {
+    title: 'Task 1',
+    date: '01.01.2020',
+    checked: false,
+    subtasks: subtasks
+  },
+  {
+    title: 'Task 1',
+    checked: false
+  },
+  {
+    title: 'Task 1',
+    date: '01.01.2020',
+    checked: false
+  },
+]
+
 storiesOf('Fields', module)
   .add('PasswordField', () => <PasswordField placeholder="password" />)
   .add('SearchField', () => <SearchField className={{ color: 'red' }} />)
-  .add('Task', () => <Task title="Task" description="Some description" date="01.01.2020" subtasks={subtasks}/>)
+  .add('Task', () => <Task task={{title:"Task", description:"Some description", date:"01.01.2020", subtasks:subtasks}}/>)
+  .add('TaskList', () => <TaskList tasks={tasks} />)
   .add('Link', () => <Link href="#">Link</Link>)
   .add('Navigator', () => <Navigator navigator={navigator} />)
   .add('Step', () => <Step step={recipes[0].steps[0]} />)

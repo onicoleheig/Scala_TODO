@@ -45,14 +45,14 @@ const styles = {
 
   subtaskDateGrid: {
     textAlign: "center",
-    marginRight: "10px",
+    marginRight: "10px"
   },
 
   subtaskDate: {
     backgroundColor: theme.palette.primary.lighter,
     borderRadius: "20px",
     paddingRight: "15px",
-    paddingLeft: "5px",
+    paddingLeft: "5px"
   },
 
   details: {
@@ -78,10 +78,9 @@ const styles = {
 class Task extends Component {
   constructor(props) {
     super(props);
-
+    
     this.state = {
-      checked: false,
-      subtasks: props.subtasks
+      task: props.task
     };
 
     this.onClickCheckbox = this.onClickCheckbox.bind(this);
@@ -90,16 +89,20 @@ class Task extends Component {
 
   onClickCheckbox(event) {
     event.stopPropagation();
+    let task = this.task
+    task.checked = !task.checked
     this.setState({
-      checked: !this.state.checked
+      task: task
     });
   }
 
   onClickSubtask = subtask => () => {
-    let array = this.state.subtasks;
+    let task = this.state.task
+    let array = task.subtasks;
     let index = array.indexOf(subtask);
     array[index].checked = !array[index].checked;
-    this.setState({ subtasks: array });
+    task.subtask = array
+    this.setState({ task: task });
   };
 
   render() {
@@ -112,47 +115,52 @@ class Task extends Component {
               <Grid item>
                 <Checkbox
                   className={classes.checkbox}
-                  checked={this.state.checked}
+                  checked={this.state.task.checked}
                   color="primary"
                   onClick={event => this.onClickCheckbox(event)}
                 />
               </Grid>
-              {this.props.date ? (
+              {this.state.task.date ? (
                 <Grid item xs={1} className={classes.dateGrid}>
                   <Typography className={classes.date}>
-                    {this.props.date}
+                    {this.state.task.date}
                   </Typography>
                 </Grid>
               ) : null}
-              <Grid item xs={this.props.date ? 10 : 11}>
+              <Grid item xs={this.state.task.date ? 10 : 11}>
                 <Typography className={classes.title}>
-                  {this.props.title}
+                  {this.state.task.title}
                 </Typography>
               </Grid>
             </Grid>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.details}>
-            {this.props.description ? (
+            {this.state.task.description ? (
               <Typography className={classes.description}>
-                {this.props.description}
+                {this.state.task.description}
               </Typography>
             ) : null}
             <List className={classes.subtasks}>
-              {this.state.subtasks.map(subtask => (
-                <ListItem key={subtask.title} onClick={this.onClickSubtask(subtask)}>
-                  <Checkbox checked={subtask.checked} />
-                    {subtask.date ? (
-                      <Grid item xs={1} className={classes.subtaskDateGrid}>
-                        <Typography className={classes.subtaskDate}>
-                          {subtask.date}
-                        </Typography>
+              {this.state.task.subtasks
+                ? this.state.task.subtasks.map(subtask => (
+                    <ListItem
+                      key={subtask.title}
+                      onClick={this.onClickSubtask(subtask)}
+                    >
+                      <Checkbox checked={subtask.checked} />
+                      {subtask.date ? (
+                        <Grid item xs={1} className={classes.subtaskDateGrid}>
+                          <Typography className={classes.subtaskDate}>
+                            {subtask.date}
+                          </Typography>
+                        </Grid>
+                      ) : null}
+                      <Grid item xs={subtask.date ? 10 : 11}>
+                        <ListItemText primary={subtask.title} />
                       </Grid>
-                    ) : null}
-                    <Grid item xs={this.state.date ? 10 : 11}>
-                      <ListItemText primary={subtask.title} />
-                    </Grid>
-                </ListItem>
-              ))}
+                    </ListItem>
+                  ))
+                : null}
             </List>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -162,10 +170,7 @@ class Task extends Component {
 }
 
 Task.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string,
-  date: PropTypes.string,
-  subtasks: PropTypes.array,
+  task: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 };
 
