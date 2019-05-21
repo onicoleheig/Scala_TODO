@@ -10,11 +10,13 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = {
   title: {
@@ -59,6 +61,20 @@ const styles = {
     flexDirection: "column"
   },
 
+  buttons: {
+    textAlign: 'right',
+  },
+
+  iconButton: {
+    width: '50px',
+    height: '50px',
+    position: 'relative',
+  },
+
+  icon: {
+    color: theme.palette.secondary.light,
+  },
+
   description: {
     paddingLeft: "20px",
     paddingRight: "20px",
@@ -69,7 +85,7 @@ const styles = {
 
   subtasks: {
     display: "block"
-  }
+  },
 };
 
 /*
@@ -78,7 +94,7 @@ const styles = {
 class Task extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       task: props.task
     };
@@ -105,6 +121,18 @@ class Task extends Component {
     this.setState({ task: task });
   };
 
+  handleAdd(event) {
+    event.stopPropagation();
+  }
+
+  handleEdit(event) {
+    event.stopPropagation();
+  }
+
+  handleDelete(event) {
+    event.stopPropagation();
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -127,19 +155,46 @@ class Task extends Component {
                   </Typography>
                 </Grid>
               ) : null}
-              <Grid item xs={this.state.task.date ? 10 : 11}>
+              <Grid item xs={this.state.task.date ? 8 : 9}>
                 <Typography className={classes.title}>
                   {this.state.task.title}
                 </Typography>
               </Grid>
+              <Grid item xs={2} className={classes.buttons}>
+                <IconButton
+                  color="secondary"
+                  className={classes.iconButton}
+                  onClick={event => this.handleAdd(event)}
+                >
+                  <FontAwesomeIcon icon={faPlus} className={classes.icon} />
+                </IconButton>
+
+                <IconButton
+                  color="secondary"
+                  className={classes.iconButton}
+                  onClick={event => this.handleEdit(event)}
+                >
+                  <FontAwesomeIcon icon={faEdit} className={classes.icon} />
+                </IconButton>
+
+                <IconButton
+                  color="secondary"
+                  className={classes.iconButton}
+                  onClick={event => this.handleDelete(event)}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} className={classes.icon} />
+                </IconButton>
+              </Grid>
             </Grid>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.details}>
-            {this.state.task.description ? (
-              <Typography className={classes.description}>
-                {this.state.task.description}
-              </Typography>
-            ) : null}
+            <div>
+              {this.state.task.description ? (
+                <Typography className={classes.description}>
+                  {this.state.task.description}
+                </Typography>
+              ) : null}
+            </div>
             <List className={classes.subtasks}>
               {this.state.task.subtasks
                 ? this.state.task.subtasks.map(subtask => (
@@ -155,8 +210,25 @@ class Task extends Component {
                           </Typography>
                         </Grid>
                       ) : null}
-                      <Grid item xs={subtask.date ? 10 : 11}>
+                      <Grid item xs={subtask.date ? 9 : 10}>
                         <ListItemText primary={subtask.title} />
+                      </Grid>
+                      <Grid item xs={2} className={classes.buttons}>
+                        <IconButton
+                          color="secondary"
+                          className={classes.iconButton}
+                          onClick={event => this.handleEdit(event)}
+                        >
+                          <FontAwesomeIcon icon={faEdit} className={classes.icon} />
+                        </IconButton>
+
+                        <IconButton
+                          color="secondary"
+                          className={classes.iconButton}
+                          onClick={event => this.handleDelete(event)}
+                        >
+                          <FontAwesomeIcon icon={faTrashAlt} className={classes.icon} />
+                        </IconButton>
                       </Grid>
                     </ListItem>
                   ))
