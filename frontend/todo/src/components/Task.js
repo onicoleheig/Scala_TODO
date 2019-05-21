@@ -72,7 +72,7 @@ const styles = {
   },
 
   icon: {
-    color: theme.palette.element.main,
+    color: theme.palette.secondary.light,
   },
 
   description: {

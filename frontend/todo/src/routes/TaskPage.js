@@ -4,6 +4,9 @@ import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
 import theme from '../util/Theme';
 import TaskList from '../components/TaskList';
 import Typography from '@material-ui/core/Typography';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = {
   title: {
@@ -19,7 +22,22 @@ const styles = {
     marginBottom: '50px',
     width: '80%',
     backgroundColor: theme.palette.secondary.main,
-  }
+  },
+
+  iconButtonContainer: {
+    textAlign: 'right',
+    margin: '20px',
+  },
+
+  iconButton: {
+    width: '50px',
+    height: '50px',
+    position: 'relative',
+  },
+
+  icon: {
+    color: theme.palette.secondary.dark,
+  },
 };
 
 class TaskPage extends Component {
@@ -29,6 +47,10 @@ class TaskPage extends Component {
     this.state = {
       tasks: props.tasks
     }
+  }
+
+  handleAdd(event) {
+
   }
 
   render() {
@@ -41,6 +63,15 @@ class TaskPage extends Component {
               Current tasks
             </Typography>
             <TaskList tasks={this.state.tasks}/>
+          </div>
+          <div className={classes.iconButtonContainer}>
+            <IconButton
+              color="secondary"
+              className={classes.iconButton}
+              onClick={event => this.handleAdd(event)}
+            >
+              <FontAwesomeIcon icon={faPlus} className={classes.icon} />
+            </IconButton>
           </div>
           <hr className={classes.horizontalLine}/>
           <div>
