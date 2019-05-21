@@ -17,6 +17,8 @@ import Task from '../components/Task';
 import TaskList from '../components/TaskList';
 import LoginPage from '../routes/LoginPage';
 import SignupPage from '../routes/SignupPage';
+import TaskPage from '../routes/TaskPage';
+import PageNotFound from '../routes/PageNotFound';
 
 
 const recipes = [];
@@ -195,6 +197,8 @@ storiesOf('Fields', module)
 storiesOf('Pages', module)
   .add('LoginPage', () => <LoginPage/>)
   .add('SignupPage', () => <SignupPage/>)
+  .add('TaskPage', () => <TaskPage tasks={tasks}/>)
+  .add('PageNotFound', () => <PageNotFound/>);
 
 storiesOf('Images', module)
   .add('UserAvatar', () => <UserAvatar avatar={backgroundImg} />)
