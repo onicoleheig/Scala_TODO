@@ -15,6 +15,8 @@ import userImg from '../assets/images/user_icon.png';
 import backgroundImg from '../assets/images/background.jpg';
 import Task from '../components/Task';
 import TaskList from '../components/TaskList';
+import LoginPage from '../routes/LoginPage';
+import SignupPage from '../routes/SignupPage';
 
 
 const recipes = [];
@@ -189,6 +191,10 @@ storiesOf('Fields', module)
       }}
     />
   ));
+
+storiesOf('Pages', module)
+  .add('LoginPage', () => <LoginPage/>)
+  .add('SignupPage', () => <SignupPage/>)
 
 storiesOf('Images', module)
   .add('UserAvatar', () => <UserAvatar avatar={backgroundImg} />)
