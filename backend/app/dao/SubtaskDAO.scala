@@ -7,7 +7,7 @@ import slick.jdbc.JdbcProfile
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait SubtasksComponent {
+trait SubtaskComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
 
   import profile.api._
@@ -25,7 +25,7 @@ trait SubtasksComponent {
 }
 
 @Singleton
-class SubtasksDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends SubtasksComponent with HasDatabaseConfigProvider[JdbcProfile] {
+class SubtaskDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends SubtaskComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
 
   // Get the object-oriented list of students directly from the query table.
