@@ -14,11 +14,13 @@ import Notification from '../components/Notification';
 import userImg from '../assets/images/user_icon.png';
 import backgroundImg from '../assets/images/background.jpg';
 import Task from '../components/Task';
+import AddTaskField from '../components/AddTaskField';
 import TaskList from '../components/TaskList';
 import LoginPage from '../routes/LoginPage';
 import SignupPage from '../routes/SignupPage';
 import TaskPage from '../routes/TaskPage';
 import PageNotFound from '../routes/PageNotFound';
+import AddSubTaskField from '../components/AddSubTaskField';
 
 
 const recipes = [];
@@ -37,7 +39,7 @@ for (let i = 0; i < 43; ++i) {
     image: backgroundImg,
     name: `Crêpes ${i}`,
     description:
-      'De bonnes crêpes. dkjsfhgkjshfgjkhsgjkhsfjkhsfdjkghsdjkfghsdkjfhgjkdfhgdhfsjghsdkgfdskjghfkjhgjksdhgjkhsdfghdfskghdsfgdskfghdfshgdksjfhgksdfhgkjsdhfgdhsfgkhsdfkjghdfjksghsfdkhgkdfshgkjfdshgkjhdfgjhsdfjghdkjfshgjksdfhgjsdhfgkdsfhgkjhdfjghdsfjhgsdjkhgjdfhgjsfdhgjkdshfgjdhfsjkghdsfkjghjksdfhgkjsdhfgkjsfdhgjkfhdsajkdsfhdjkashkfjdhfkjadshfjkshfkjhfasdjkfhdsjkhfjkhsdj',
+      'De bonnes crêpes.',
     preparationTime: 135,
     yield: 4,
     rating: 2.4,
@@ -148,16 +150,20 @@ let tasks = [
   },
   {
     title: 'Task 1',
-    checked: false
+    checked: false,
+    subtasks: []
   },
   {
     title: 'Task 1',
     date: '01.01.2020',
-    checked: false
+    checked: false,
+    subtasks: []
   },
 ]
 
 storiesOf('Fields', module)
+  .add('AddTaskField', () => <AddTaskField />)
+  .add('AddSubTaskField', () => <AddSubTaskField/>)
   .add('PasswordField', () => <PasswordField placeholder="password" />)
   .add('SearchField', () => <SearchField className={{ color: 'red' }} />)
   .add('Task', () => <Task task={{title:"Task", description:"Some description", date:"01.01.2020", subtasks:subtasks}}/>)

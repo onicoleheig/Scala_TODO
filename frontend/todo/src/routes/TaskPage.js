@@ -7,12 +7,17 @@ import Typography from '@material-ui/core/Typography';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '@material-ui/core/IconButton';
+import AddTaskField from '../components/AddTaskField';
 
 const styles = {
   title: {
     fontSize: '40px',
     marginBottom: '30px',
     marginLeft: '10px',
+  },
+
+  addTask: {
+    marginBottom: '50px',
   },
 
   horizontalLine: {
@@ -62,6 +67,9 @@ class TaskPage extends Component {
             <Typography className={classes.title}>
               Current tasks
             </Typography>
+            <div className={classes.addTask}>
+              <AddTaskField/>
+            </div>
             <TaskList tasks={this.state.tasks}/>
           </div>
           <div className={classes.iconButtonContainer}>

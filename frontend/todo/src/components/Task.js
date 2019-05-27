@@ -17,6 +17,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '@material-ui/core/IconButton';
+import AddSubTaskField from '../components/AddSubTaskField';
+
+const addSubTask = 'addSubTask';
 
 const styles = {
   title: {
@@ -34,7 +37,7 @@ const styles = {
   },
 
   dateGrid: {
-    textAlign: "center"
+    textAlign: "center",
   },
 
   date: {
@@ -42,7 +45,8 @@ const styles = {
     top: "50%",
     transform: "translateY(-50%)",
     backgroundColor: theme.palette.primary.lighter,
-    borderRadius: "20px"
+    borderRadius: "20px",
+    fontSize: '12px'
   },
 
   subtaskDateGrid: {
@@ -53,8 +57,7 @@ const styles = {
   subtaskDate: {
     backgroundColor: theme.palette.primary.lighter,
     borderRadius: "20px",
-    paddingRight: "15px",
-    paddingLeft: "5px"
+    fontSize: '10px'
   },
 
   details: {
@@ -101,6 +104,11 @@ class Task extends Component {
 
     this.onClickCheckbox = this.onClickCheckbox.bind(this);
     this.onClickSubtask = this.onClickSubtask.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
+    this.handleAddSub = this.handleAddSub.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.handleAddSubDismiss = this.handleAddSubDismiss.bind(this);
   }
 
   onClickCheckbox(event) {
@@ -123,6 +131,35 @@ class Task extends Component {
 
   handleAdd(event) {
     event.stopPropagation();
+    let task = this.state.task
+    let array = task.subtasks;
+    if (array[array.length - 1] === addSubTask) return
+    array.push(addSubTask)
+    task.subtask = array
+    this.setState({ task: task });
+  }
+
+  handleAddSub(event) {
+    event.stopPropagation();
+    let task = this.state.task
+    let array = task.subtasks;
+    array.pop()
+    array.push({
+      title: 'Subtask 1',
+      date: '01.01.2020',
+      checked: false
+    })
+    task.subtask = array
+    this.setState({ task: task });
+  }
+
+  handleAddSubDismiss(event) {
+    event.stopPropagation();
+    let task = this.state.task
+    let array = task.subtasks;
+    array.pop()
+    task.subtask = array
+    this.setState({ task: task });
   }
 
   handleEdit(event) {
@@ -155,12 +192,12 @@ class Task extends Component {
                   </Typography>
                 </Grid>
               ) : null}
-              <Grid item xs={this.state.task.date ? 8 : 9}>
+              <Grid item xs={this.state.task.date ? 7 : 8}>
                 <Typography className={classes.title}>
                   {this.state.task.title}
                 </Typography>
               </Grid>
-              <Grid item xs={2} className={classes.buttons}>
+              <Grid item xs={3} className={classes.buttons}>
                 <IconButton
                   color="secondary"
                   className={classes.iconButton}
@@ -198,6 +235,9 @@ class Task extends Component {
             <List className={classes.subtasks}>
               {this.state.task.subtasks
                 ? this.state.task.subtasks.map(subtask => (
+                    subtask === addSubTask ?
+                      <AddSubTaskField className={classes.addSubTask}/>
+                    :
                     <ListItem
                       key={subtask.title}
                       onClick={this.onClickSubtask(subtask)}
