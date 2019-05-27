@@ -12,7 +12,7 @@ trait UsersComponent {
 
   import profile.api._
 
-  // This class convert the database's students table in a object-oriented entity: the Student model.
+  // This class convert the database's user table in a object-oriented entity: the User model.
   class UsersTable(tag: Tag) extends Table[User](tag, "users") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
     def username = column[String]("username")
@@ -27,32 +27,32 @@ trait UsersComponent {
 class UsersDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends UsersComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
 
-  // Get the object-oriented list of students directly from the query table.
+  // Get the object-oriented list of users directly from the query table.
   val users = TableQuery[UsersTable]
 
-  /** Retrieve the list of students */
+  /** Retrieve the list of users */
   def list(): Future[Seq[User]] = {
     val query = users.sortBy(user => (user.username))
     db.run(query.result)
   }
 
-  /** Retrieve a student from the id. */
+  /** Retrieve a user from the id. */
   def findById(id: Long): Future[Option[User]] =
     db.run(users.filter(_.id === id).result.headOption)
 
-  /** Insert a new student, then return it. */
+  /** Insert a new user, then return it. */
   def insert(user: User): Future[User] = {
     val insertQuery = users returning users.map(_.id) into ((user, id) => user.copy(Some(id)))
     db.run(insertQuery += user)
   }
 
-  /** Update a student, then return an integer that indicate if the student was found (1) or not (0). */
+  /** Update a user, then return an integer that indicate if the user was found (1) or not (0). */
   def update(id: Long, user: User): Future[Int] = {
     val userToUpdate: User = user.copy(Some(id))
     db.run(users.filter(_.id === id).update(userToUpdate))
   }
 
-  /** Delete a student, then return an integer that indicate if the student was found (1) or not (0). */
+  /** Delete a user, then return an integer that indicate if the user was found (1) or not (0). */
   def delete(id: Long): Future[Int] =
     db.run(users.filter(_.id === id).delete)
 }
