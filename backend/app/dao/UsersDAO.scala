@@ -1,7 +1,5 @@
 package dao
 
-package dao
-
 import javax.inject.{Inject, Singleton}
 import models.User
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
@@ -9,13 +7,13 @@ import slick.jdbc.JdbcProfile
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait StudentsComponent {
+trait UsersComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
 
   import profile.api._
 
   // This class convert the database's students table in a object-oriented entity: the Student model.
-  class StudentsTable(tag: Tag) extends Table[User](tag, "users") {
+  class UsersTable(tag: Tag) extends Table[User](tag, "users") {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
     def username = column[String]("username")
     def password = column[String]("password")
@@ -26,15 +24,15 @@ trait StudentsComponent {
 }
 
 @Singleton
-class StudentsDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends StudentsComponent with HasDatabaseConfigProvider[JdbcProfile] {
+class UsersDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends UsersComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
 
   // Get the object-oriented list of students directly from the query table.
-  val users = TableQuery[StudentsTable]
+  val users = TableQuery[UsersTable]
 
   /** Retrieve the list of students */
   def list(): Future[Seq[User]] = {
-    val query = users.sortBy(s => (s.username))
+    val query = users.sortBy(user => (user.username))
     db.run(query.result)
   }
 
