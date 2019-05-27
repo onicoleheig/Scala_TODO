@@ -10,7 +10,7 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Table `mydb`.`user`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NULL,
   `password` VARCHAR(45) NULL,
@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `date` DATETIME NULL,
   `description` VARCHAR(45) NULL,
   `checked` TINYINT NULL,
-  `user_id` INT NOT NULL,
+  `userId` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_tasks_user`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
+    FOREIGN KEY (`userId`)
+    REFERENCES `users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -44,10 +44,10 @@ CREATE TABLE IF NOT EXISTS `subtask` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NULL,
   `date` DATETIME NULL,
-  `tasks_id` INT NOT NULL,
+  `taskId` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `fk_subtask_tasks1`
-    FOREIGN KEY (`tasks_id`)
+    FOREIGN KEY (`taskId`)
     REFERENCES `tasks` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
