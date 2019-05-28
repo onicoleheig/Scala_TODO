@@ -127,7 +127,9 @@ class Task extends Component {
   onClickCheckbox(event) {
     event.stopPropagation();
     let task = this.state.task
-    task.checked = !task.checked
+    if (task.checked) return
+    task.checked = true
+    task.subtasks.forEach(subtask => subtask.checked = true);
     this.setState({
       task: task
     });
@@ -135,6 +137,7 @@ class Task extends Component {
 
   onClickSubtask = subtask => () => {
     let task = this.state.task
+    if (task.checked) return
     let array = task.subtasks;
     let index = array.indexOf(subtask);
     array[index].checked = !array[index].checked;
