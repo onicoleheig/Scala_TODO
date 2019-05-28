@@ -82,6 +82,15 @@ class TasksController @Inject()(cc: ControllerComponents, tasksDAO: TasksDAO) ex
   }
 
   /**
+    * Get the list of all existing tasks for a specified user, then return it.
+    * The Action.async is used because the request is asynchronous.
+    */
+  def getTasksForUser(taskId: Long) = Action.async {
+    val tasksList = tasksDAO.findByUserId(taskId)
+    tasksList map (s => Ok(Json.toJson(s)))
+  }
+
+  /**
     * Get the Task identified by the given ID, then return it as JSON.
     */
   def getTask(taskId: Long) = Action.async {

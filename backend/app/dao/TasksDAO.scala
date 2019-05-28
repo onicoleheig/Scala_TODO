@@ -41,6 +41,12 @@ class TasksDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
     db.run(query.result)
   }
 
+  /** Retireve all tasks for a user. */
+  def findByUserId(id: Long): Future[Seq[Task]] = {
+    val query = tasks.filter(_.userId === id).sortBy(task => (task.title))
+    db.run(query.result)
+  }
+
   /** Retrieve a tasks from the id. */
   def findById(id: Long): Future[Option[Task]] =
     db.run(tasks.filter(_.id === id).result.headOption)

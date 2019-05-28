@@ -22,10 +22,10 @@ DELETE  /users/:id                  controllers.UsersController.deleteUser(id: L
 
 # for tasks
 GET     /tasks                      controllers.TasksController.getTasks
+GET     /users/:id/tasks            controllers.TasksController.getTasksForUser(id: Long)
 PUT     /tasks/:id                  controllers.TasksController.updateTask(id: Long)
 POST    /tasks                      controllers.TasksController.createTask
 DELETE  /tasks/:id                  controllers.TasksController.deleteTask(id: Long)
-
 
 #GET     /students/:id               controllers.StudentsController.getStudent(id: Long)
 #PUT     /students/:id               controllers.StudentsController.updateStudent(id: Long)
