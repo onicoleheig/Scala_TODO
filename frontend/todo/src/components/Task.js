@@ -99,9 +99,12 @@ class Task extends Component {
     super(props);
 
     this.state = {
-      task: props.task
+      task: props.task,
+      addSubTaskTitle: '',
+      addSubTaskDate: '',
     };
 
+    this.handleOnChange = this.handleOnChange.bind(this);
     this.onClickCheckbox = this.onClickCheckbox.bind(this);
     this.onClickSubtask = this.onClickSubtask.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
@@ -111,9 +114,19 @@ class Task extends Component {
     this.handleAddSubDismiss = this.handleAddSubDismiss.bind(this);
   }
 
+  handleOnChange(name, event) {
+    if (name === 'addSubTaskDate')
+      if (event.target.value.length === 11)
+        return
+
+    this.setState({
+      [name]: event.target.value
+    });
+  }
+
   onClickCheckbox(event) {
     event.stopPropagation();
-    let task = this.task
+    let task = this.state.task
     task.checked = !task.checked
     this.setState({
       task: task
@@ -143,14 +156,21 @@ class Task extends Component {
     event.stopPropagation();
     let task = this.state.task
     let array = task.subtasks;
+
+    if(this.state.addSubTaskTitle.isEmpty) return
+
     array.pop()
     array.push({
-      title: 'Subtask 1',
-      date: '01.01.2020',
+      title: this.state.addSubTaskTitle,
+      date: this.state.addSubTaskDate,
       checked: false
     })
     task.subtask = array
-    this.setState({ task: task });
+    this.setState({
+      task: task,
+      addSubTaskTitle: '',
+      addSubTaskDate: '',
+    });
   }
 
   handleAddSubDismiss(event) {
@@ -159,7 +179,11 @@ class Task extends Component {
     let array = task.subtasks;
     array.pop()
     task.subtask = array
-    this.setState({ task: task });
+    this.setState({
+      task: task,
+      addSubTaskTitle: '',
+      addSubTaskDate: '',
+    });
   }
 
   handleEdit(event) {
@@ -197,6 +221,8 @@ class Task extends Component {
                   {this.state.task.title}
                 </Typography>
               </Grid>
+              {
+                this.state.task.checked ? null :
               <Grid item xs={3} className={classes.buttons}>
                 <IconButton
                   color="secondary"
@@ -222,6 +248,7 @@ class Task extends Component {
                   <FontAwesomeIcon icon={faTrashAlt} className={classes.icon} />
                 </IconButton>
               </Grid>
+            }
             </Grid>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={classes.details}>
@@ -236,7 +263,7 @@ class Task extends Component {
               {this.state.task.subtasks
                 ? this.state.task.subtasks.map(subtask => (
                     subtask === addSubTask ?
-                      <AddSubTaskField className={classes.addSubTask}/>
+                      <AddSubTaskField titleValue={this.state.addSubTaskTitle} dateValue={this.state.addSubTaskDate} onChangeTitle={event => this.handleOnChange('addSubTaskTitle', event)} onChangeDate={event => this.handleOnChange('addSubTaskDate', event)} className={classes.addSubTask} onAdd={this.handleAddSub} onDismiss={this.handleAddSubDismiss}/>
                     :
                     <ListItem
                       key={subtask.title}
@@ -253,6 +280,7 @@ class Task extends Component {
                       <Grid item xs={subtask.date ? 9 : 10}>
                         <ListItemText primary={subtask.title} />
                       </Grid>
+                      { subtask.checked ? null :
                       <Grid item xs={2} className={classes.buttons}>
                         <IconButton
                           color="secondary"
@@ -270,6 +298,7 @@ class Task extends Component {
                           <FontAwesomeIcon icon={faTrashAlt} className={classes.icon} />
                         </IconButton>
                       </Grid>
+                    }
                     </ListItem>
                   ))
                 : null}

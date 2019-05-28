@@ -57,9 +57,8 @@ class AddSubTaskField extends Component {
             <TextField
               variant="outlined"
               type="text"
-              onKeyPress={event => this.onEnter(event)}
-              value={this.props.value}
-              onChange={this.props.onChange}
+              value={this.props.titleValue}
+              onChange={this.props.onChangeTitle}
               placeholder={'Add subtask'}
               className={classNames(classes.title, this.className)}
               InputProps={{
@@ -71,8 +70,27 @@ class AddSubTaskField extends Component {
                 },
               }}
             />
-            <Button className={classes.button}>
+            <TextField
+              variant="outlined"
+              type="text"
+
+              value={this.props.dateValue}
+              onChange={this.props.onChangeDate}
+              placeholder={'Deadline'}
+              className={this.className}
+              InputProps={{
+                classes: {
+                  root: classes.cssOutlinedInput,
+                  focused: classes.cssFocused,
+                  notchedOutline: classes.notchedOutline,
+                },
+              }}
+            />
+          <Button className={classes.button} onClick={this.props.onAdd}>
               Add
+            </Button>
+            <Button className={classes.button} onClick={this.props.onDismiss}>
+              Cancel
             </Button>
           </div>
       </MuiThemeProvider>
@@ -84,6 +102,12 @@ AddSubTaskField.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
+  onAdd: PropTypes.func.isRequired,
+  onDismiss: PropTypes.func.isRequired,
+  titleValue: PropTypes.string.isRequired,
+  dateValue: PropTypes.string.isRequired,
+  onChangeTitle: PropTypes.func.isRequired,
+  onChangeDate: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(AddSubTaskField);

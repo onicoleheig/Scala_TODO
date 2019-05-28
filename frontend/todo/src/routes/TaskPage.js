@@ -50,12 +50,41 @@ class TaskPage extends Component {
     super(props)
 
     this.state = {
-      tasks: props.tasks
+      tasks: props.tasks,
+      addTaskTitle: '',
+      addTaskDate: '',
+      addTaskDescription: ''
     }
+
+    this.handleOnChange = this.handleOnChange.bind(this)
+    this.handleAdd = this.handleAdd.bind(this)
+  }
+
+  handleOnChange(name, event) {
+    if (name === 'addTaskDate')
+      if (event.target.value.length === 11)
+        return
+
+    this.setState({
+      [name]: event.target.value
+    })
   }
 
   handleAdd(event) {
-
+    let tasks = this.state.tasks
+    tasks.push({
+      title: this.state.addTaskTitle,
+      description: this.state.addTaskDescription,
+      date: this.state.addTaskDate,
+      checked: false,
+      subtask: []
+    });
+    this.setState({
+      tasks: tasks,
+      addTaskTitle: '',
+      addTaskDate: '',
+      addTaskDescription: ''
+    });
   }
 
   render() {
@@ -68,18 +97,17 @@ class TaskPage extends Component {
               Current tasks
             </Typography>
             <div className={classes.addTask}>
-              <AddTaskField/>
+              <AddTaskField
+                onChangeTitle={event => this.handleOnChange('addTaskTitle', event)}
+                onChangeDescription={event => this.handleOnChange('addTaskDescription', event)}
+                onChangeDate={event => this.handleOnChange('addTaskDate', event)}
+                titleValue={this.state.addTaskTitle}
+                descriptionValue={this.state.addTaskDescription}
+                dateValue={this.state.addTaskDate}
+                onClick={event => this.handleAdd(event)}
+              />
             </div>
             <TaskList tasks={this.state.tasks}/>
-          </div>
-          <div className={classes.iconButtonContainer}>
-            <IconButton
-              color="secondary"
-              className={classes.iconButton}
-              onClick={event => this.handleAdd(event)}
-            >
-              <FontAwesomeIcon icon={faPlus} className={classes.icon} />
-            </IconButton>
           </div>
           <hr className={classes.horizontalLine}/>
           <div>
