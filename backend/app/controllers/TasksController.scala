@@ -102,6 +102,7 @@ class TasksController @Inject()(cc: ControllerComponents, tasksDAO: TasksDAO) ex
     * Parse the PUT request, validate the request's body, then update the task whose ID matches with the given one,
     * based on the sent JSON payload, and finally sends back a JSON response.
     */
+  /*
   def updateTask(taskId: Long) = Action.async(validateJson[Task]) { request =>
     val newTask = request.body
 
@@ -119,6 +120,7 @@ class TasksController @Inject()(cc: ControllerComponents, tasksDAO: TasksDAO) ex
       ))
     }
   }
+  */
 
   /**
     * Try to delete the task identified by the given ID, and sends back a JSON response.
