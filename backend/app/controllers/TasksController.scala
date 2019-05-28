@@ -19,7 +19,7 @@ class TasksController @Inject()(cc: ControllerComponents, tasksDAO: TasksDAO) ex
       (JsPath \ "title").write[String] and
       (JsPath \ "date").write[String] and
       (JsPath \ "description").write[String] and
-      (JsPath \ "checked").writeNullable[Boolean] and
+      (JsPath \ "checked").write[Boolean] and
       (JsPath \ "userId").write[Long]
 
     // Use the default 'unapply' method (which acts like a reverted constructor) of the Task case class if order to get
@@ -34,7 +34,7 @@ class TasksController @Inject()(cc: ControllerComponents, tasksDAO: TasksDAO) ex
       (JsPath \ "title").read[String](minLength[String](2)) and
       (JsPath \ "date").read[String](minLength[String](2)) and
       (JsPath \ "description").read[String](minLength[String](2)) and
-      (JsPath \ "checked").readNullable[Boolean] and
+      (JsPath \ "checked").read[Boolean] and
       (JsPath \ "userId").read[Long]
 
     // Use the default 'apply' method (which acts like a constructor) of the Task case class with the JsValue in order

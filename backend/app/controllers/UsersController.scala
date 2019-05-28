@@ -28,8 +28,8 @@ class UsersController @Inject()(cc: ControllerComponents, usersDAO: UsersDAO) ex
     // In order to be valid, the user must have first and last names that are 2 characters long at least, as well as
     // an age that is greater than 0.
     (JsPath \ "id").readNullable[Long] and
-      (JsPath \ "firstName").read[String](minLength[String](2)) and
-      (JsPath \ "lastName").read[String](minLength[String](2))
+      (JsPath \ "username").read[String](minLength[String](2)) and
+      (JsPath \ "password").read[String](minLength[String](2))
 
     // Use the default 'apply' method (which acts like a constructor) of the User case class with the JsValue in order
     // to construct a User object from it.
@@ -62,6 +62,7 @@ class UsersController @Inject()(cc: ControllerComponents, usersDAO: UsersDAO) ex
     // `request.body` contains a fully validated `User` instance, since it has been validated by the `validateJson`
     // helper above.
     val user = request.body
+
     val createdUser = usersDAO.insert(user)
 
     createdUser.map(s =>
