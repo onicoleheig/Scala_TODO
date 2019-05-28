@@ -207,9 +207,9 @@ class Task extends Component {
               <Grid item>
                 <Checkbox
                   className={classes.checkbox}
-                  checked={this.state.task.checked}
+                  checked={this.props.task.checked}
                   color="primary"
-                  onClick={event => this.onClickCheckbox(event)}
+                  onClick={event => this.props.handleOnClickChecked(event, this.state.task)}
                 />
               </Grid>
               {this.state.task.date ? (
@@ -315,7 +315,8 @@ class Task extends Component {
 
 Task.propTypes = {
   task: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  handleOnClickChecked: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(Task);

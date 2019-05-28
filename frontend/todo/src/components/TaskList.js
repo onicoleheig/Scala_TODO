@@ -29,15 +29,18 @@ class TaskList extends Component {
     const { classes } = this.props;
     return (
       <MuiThemeProvider theme={theme}>
-        { this.state.tasks ?
+        { this.state.tasks.length > 0 ?
           this.state.tasks.map(task => (
             <div className={classes.task}>
-              <Task task={task}/>
+              <Task
+                task={task}
+                handleOnClickChecked={this.props.handleOnClickChecked}
+                />
             </div>
           ))
           :
           <Typography>
-            No task yet
+            No task
           </Typography>
         }
       </MuiThemeProvider>
@@ -47,7 +50,8 @@ class TaskList extends Component {
 
 Task.propTypes = {
   tasks: PropTypes.array.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  handleOnClickChecked: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(TaskList);

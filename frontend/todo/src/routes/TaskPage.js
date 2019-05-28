@@ -51,6 +51,7 @@ class TaskPage extends Component {
 
     this.state = {
       tasks: props.tasks,
+      finishedTasks: props.finishedTasks,
       addTaskTitle: '',
       addTaskDate: '',
       addTaskDescription: ''
@@ -58,6 +59,27 @@ class TaskPage extends Component {
 
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleAdd = this.handleAdd.bind(this)
+    this.handleOnClickChecked = this.handleOnClickChecked.bind(this)
+  }
+
+  handleOnClickChecked(event, task) {
+    event.stopPropagation()
+
+    let tasks = this.state.tasks
+    let finishedTasks = this.state.finishedTasks
+    if (task.checked) return
+    let index = tasks.indexOf(task);
+
+    task.checked = true
+    task.subtasks.forEach(subtask => subtask.checked = true);
+
+    tasks.splice(index, 1)
+    finishedTasks.push(task)
+
+    this.setState({
+      tasks: tasks,
+      finishedTasks: finishedTasks,
+    });
   }
 
   handleOnChange(name, event) {
@@ -107,14 +129,17 @@ class TaskPage extends Component {
                 onClick={event => this.handleAdd(event)}
               />
             </div>
-            <TaskList tasks={this.state.tasks}/>
+            <TaskList
+              tasks={this.state.tasks}
+              handleOnClickChecked={this.handleOnClickChecked}
+              />
           </div>
           <hr className={classes.horizontalLine}/>
           <div>
             <Typography className={classes.title}>
               Finished Tasks
             </Typography>
-            <TaskList tasks={this.state.tasks}/>
+            <TaskList tasks={this.state.finishedTasks}/>
           </div>
         </div>
       </MuiThemeProvider>
@@ -125,6 +150,7 @@ class TaskPage extends Component {
 TaskPage.propTypes = {
   tasks: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  finishedTasks: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(TaskPage);
