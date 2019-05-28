@@ -26,14 +26,14 @@ trait TasksComponent extends UsersComponent {
     // Map the attributes with the model; the ID is optional.
     def * = (id.?, title, date, description, checked, userId) <> (Task.tupled, Task.unapply)
   }
+
+  // Get the object-oriented list of tasks directly from the query table.
+  val tasks = TableQuery[TasksTable]
 }
 
 @Singleton
 class TasksDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends TasksComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
-
-  // Get the object-oriented list of tasks directly from the query table.
-  val tasks = TableQuery[TasksTable]
 
   /** Retrieve the list of tasks */
   def list(): Future[Seq[Task]] = {
@@ -43,8 +43,19 @@ class TasksDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)
 
   /** Retireve all tasks for a user. */
   def findByUserId(id: Long): Future[Seq[Task]] = {
-    val query = tasks.filter(_.userId === id).sortBy(task => (task.title))
-    db.run(query.result)
+    //KEEP IT first version before foreignkey !
+    //val query = tasks.filter(_.userId === id).sortBy(task => (task.title))
+    //db.run(query.result)
+
+    val query2 = for {
+      task <- tasks
+      if task.userId === id
+      taskUser <- task.user
+    } yield (task)
+
+    for {
+      pair <- db.run(query2.result)
+    } yield pair
   }
 
   /** Retrieve a tasks from the id. */

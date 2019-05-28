@@ -22,14 +22,14 @@ trait SubtaskComponent {
     // Map the attributes with the model; the ID is optional.
     def * = (id.?, title, date, taskId) <> (Subtask.tupled, Subtask.unapply)
   }
+
+  // Get the object-oriented list of subtasks directly from the query table.
+  val subtasks = TableQuery[SubtaskTable]
 }
 
 @Singleton
 class SubtaskDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends SubtaskComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
-
-  // Get the object-oriented list of subtasks directly from the query table.
-  val subtasks = TableQuery[SubtaskTable]
 
   /** Retrieve the list of subtasks */
   def list(): Future[Seq[Subtask]] = {
