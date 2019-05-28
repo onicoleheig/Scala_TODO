@@ -150,17 +150,34 @@ let tasks = [
     subtasks: subtasks
   },
   {
-    title: 'Task 1',
+    title: 'Task 2',
     date: '',
     description: '',
     checked: false,
     subtasks: []
   },
   {
-    title: 'Task 1',
+    title: 'Task 3',
     date: '01.01.2020',
     description: '',
     checked: false,
+    subtasks: []
+  },
+]
+
+let finishedTasks = [
+  {
+    title: 'Finished Task 1',
+    date: '01.01.2020',
+    description: 'Description 1',
+    checked: true,
+    subtasks: subtasks
+  },
+  {
+    title: 'Finished Task 2',
+    date: '01.01.2020',
+    description: '',
+    checked: true,
     subtasks: []
   },
 ]
@@ -207,7 +224,7 @@ storiesOf('Fields', module)
 storiesOf('Pages', module)
   .add('LoginPage', () => <LoginPage/>)
   .add('SignupPage', () => <SignupPage/>)
-  .add('TaskPage', () => <TaskPage tasks={tasks}/>)
+  .add('TaskPage', () => <TaskPage tasks={tasks} finishedTasks={finishedTasks}/>)
   .add('PageNotFound', () => <PageNotFound/>);
 
 storiesOf('Images', module)
