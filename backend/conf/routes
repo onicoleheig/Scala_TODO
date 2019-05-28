@@ -16,12 +16,16 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 # REST API endpoints
 # for the user
 GET     /users                      controllers.UsersController.getUsers
+PUT     /users/:id                  controllers.UsersController.updateUser(id: Long)
 POST    /users                      controllers.UsersController.createUser
+DELETE  /users/:id                  controllers.UsersController.deleteUser(id: Long)
 
 # for tasks
 GET     /tasks                      controllers.TasksController.getTasks
+PUT     /tasks/:id                  controllers.TasksController.updateTask(id: Long)
 POST    /tasks                      controllers.TasksController.createTask
 DELETE  /tasks/:id                  controllers.TasksController.deleteTask(id: Long)
+
 
 #GET     /students/:id               controllers.StudentsController.getStudent(id: Long)
 #PUT     /students/:id               controllers.StudentsController.updateStudent(id: Long)

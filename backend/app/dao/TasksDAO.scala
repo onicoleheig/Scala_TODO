@@ -1,13 +1,13 @@
 package dao
 
 import javax.inject.{Inject, Singleton}
-import models.Task
+import models.{Task, User}
 import play.api.db.slick.{DatabaseConfigProvider, HasDatabaseConfigProvider}
 import slick.jdbc.JdbcProfile
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait TasksComponent {
+trait TasksComponent extends UsersComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
 
   import profile.api._
@@ -20,6 +20,8 @@ trait TasksComponent {
     def description = column[String]("description")
     def checked = column[Boolean]("checked")
     def userId = column[Long]("userId")
+
+    def user = foreignKey("userFk", userId, users)(_.id)
 
     // Map the attributes with the model; the ID is optional.
     def * = (id.?, title, date, description, checked, userId) <> (Task.tupled, Task.unapply)

@@ -21,14 +21,14 @@ trait UsersComponent {
     // Map the attributes with the model; the ID is optional.
     def * = (id.?, username, password) <> (User.tupled, User.unapply)
   }
+
+  // Get the object-oriented list of users directly from the query table.
+  val users = TableQuery[UsersTable]
 }
 
 @Singleton
 class UsersDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends UsersComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
-
-  // Get the object-oriented list of users directly from the query table.
-  val users = TableQuery[UsersTable]
 
   /** Retrieve the list of users */
   def list(): Future[Seq[User]] = {
