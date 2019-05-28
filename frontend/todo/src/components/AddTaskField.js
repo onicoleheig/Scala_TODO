@@ -78,9 +78,8 @@ class AddTaskField extends Component {
           <TextField
             variant="outlined"
             type="text"
-            onKeyPress={event => this.onEnter(event)}
-            value={this.props.value}
-            onChange={this.props.onChange}
+            value={this.props.titleValue}
+            onChange={this.props.onChangeTitle}
             placeholder={'Title'}
             className={classNames(classes.title, this.className)}
             InputProps={{
@@ -97,9 +96,8 @@ class AddTaskField extends Component {
               variant="outlined"
               type="text"
               multiline
-              onKeyPress={event => this.onEnter(event)}
-              value={this.props.value}
-              onChange={this.props.onChange}
+              value={this.props.descriptionValue}
+              onChange={this.props.onChangeDescription}
               placeholder={'Description'}
               className={classNames(classes.description, this.className)}
               InputProps={{
@@ -110,8 +108,22 @@ class AddTaskField extends Component {
                 },
               }}
             />
-            
-            <Button className={classes.button}>
+            <TextField
+              variant="outlined"
+              type="text"
+              value={this.props.dateValue}
+              onChange={this.props.onChangeDate}
+              placeholder={'Deadline'}
+              className={this.className}
+              InputProps={{
+                classes: {
+                  root: classes.cssOutlinedInput,
+                  focused: classes.cssFocused,
+                  notchedOutline: classes.notchedOutline,
+                },
+              }}
+            />
+          <Button className={classes.button} onClick={this.props.onClick}>
               Add
             </Button>
           </div>
@@ -125,6 +137,13 @@ AddTaskField.propTypes = {
   className: PropTypes.string,
   classes: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
+  onChangeTitle: PropTypes.func.isRequired,
+  onChangeDescription: PropTypes.func.isRequired,
+  onChangeDate: PropTypes.func.isRequired,
+  titleValue: PropTypes.string.isRequired,
+  dateValue: PropTypes.string.isRequired,
+  descriptionValue: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(AddTaskField);

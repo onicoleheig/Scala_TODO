@@ -145,17 +145,21 @@ let tasks = [
   {
     title: 'Task 1',
     date: '01.01.2020',
+    description: 'Description 1',
     checked: false,
     subtasks: subtasks
   },
   {
     title: 'Task 1',
+    date: '',
+    description: '',
     checked: false,
     subtasks: []
   },
   {
     title: 'Task 1',
     date: '01.01.2020',
+    description: '',
     checked: false,
     subtasks: []
   },
