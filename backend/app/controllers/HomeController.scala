@@ -23,7 +23,11 @@ class HomeController @Inject()(cc: ControllerComponents, usersDAO: UsersDAO) ext
     Ok(
       JavaScriptReverseRouter("jsRoutes")(
         routes.javascript.UsersController.getUsers,
-        routes.javascript.UsersController.createUser
+        routes.javascript.UsersController.createUser,
+        routes.javascript.TasksController.getTasks,
+        routes.javascript.TasksController.getTasksForUser,
+        routes.javascript.TasksController.createTask,
+        routes.javascript.TasksController.deleteTask
       )
     ).as("text/javascript")
   }
