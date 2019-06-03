@@ -67,6 +67,7 @@ class TaskPage extends Component {
 
     let tasks = this.state.tasks
     let finishedTasks = this.state.finishedTasks
+
     if (task.checked) return
     let index = tasks.indexOf(task);
 
