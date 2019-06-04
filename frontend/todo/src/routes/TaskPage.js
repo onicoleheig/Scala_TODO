@@ -9,6 +9,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '@material-ui/core/IconButton';
 import AddTaskField from '../components/AddTaskField';
 
+
 const styles = {
   title: {
     fontSize: '40px',
@@ -50,7 +51,29 @@ class TaskPage extends Component {
     super(props)
 
     this.state = {
-      tasks: props.tasks,
+      tasks: [
+        {
+          title: 'Task 1',
+          date: '01.01.2020',
+          description: 'Description 1',
+          checked: false,
+          subtasks: []
+        },
+        {
+          title: 'Task 2',
+          date: '',
+          description: '',
+          checked: false,
+          subtasks: []
+        },
+        {
+          title: 'Task 3',
+          date: '01.01.2020',
+          description: '',
+          checked: false,
+          subtasks: []
+        },
+      ],
       finishedTasks: props.finishedTasks,
       addTaskTitle: '',
       addTaskDate: '',
@@ -82,6 +105,23 @@ class TaskPage extends Component {
       finishedTasks: finishedTasks,
     });
   }
+
+  /*componentWillMount() {
+    //const userId = this.props.match.params.userid;
+      fetch(`http://localhost:9000/users/1/tasks`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      })
+        .then(r => r.json())
+        .then((data) => {
+          this.setState({
+            tasks: data
+          })
+        });
+  }*/
 
   handleOnChange(name, event) {
     if (name === 'addTaskDate')

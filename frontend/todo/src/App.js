@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Switch, Route, Redirect } from "react-router";
+import { BrowserRouter } from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import LoginPage from './routes/LoginPage'
+import SignupPage from './routes/SignupPage'
+import TaskPage from './routes/TaskPage'
+import PageNotFound from './routes/PageNotFound'
 
-export default App;
+export default () => (
+  <BrowserRouter>
+      <Switch>
+        <Route path="/" exact component={TaskPage} />
+        <Route path="/signin" component={LoginPage} />
+        <Route path="/signup" component={SignupPage} />
+        <Route component={PageNotFound} />
+      </Switch>
+  </BrowserRouter>
+);
+
+/*
+        <Route path="/createrecipe" component={Route} />
+        <Route path="/users/:userid" component={Rou} />
+        <Route path="/recipes/:recipeid" component={RecipePage} />
+        <Route path="/search" component={SearchPage} />
+        <Route path="/usersearch" component={UserSearchPage} />
+*/

@@ -23,6 +23,8 @@ class TaskList extends Component {
     this.state = {
       tasks: props.tasks
     };
+
+    console.log("A", props.tasks, this.state.tasks)
   }
 
   render() {
