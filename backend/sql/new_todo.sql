@@ -14,13 +14,12 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+USE `sql2294502` ;
 
 -- -----------------------------------------------------
 -- Table `mydb`.`users`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`users` (
+CREATE TABLE IF NOT EXISTS `sql2294502`.`users` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NULL,
   `password` VARCHAR(45) NULL,
@@ -31,18 +30,17 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`tasks`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`tasks` (
+CREATE TABLE IF NOT EXISTS `sql2294502`.`tasks` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NULL,
-  `date` DATETIME NULL,
+  `date` VARCHAR(45) NULL,
   `description` VARCHAR(45) NULL,
   `checked` TINYINT NULL,
   `userId` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_tasks_user_idx` (`userId` ASC) VISIBLE,
   CONSTRAINT `fk_tasks_user`
     FOREIGN KEY (`userId`)
-    REFERENCES `mydb`.`users` (`id`)
+    REFERENCES `sql2294502`.`users` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -51,17 +49,16 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`subtasks`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`subtasks` (
+CREATE TABLE IF NOT EXISTS `sql2294502`.`subtasks` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NULL,
-  `date` DATETIME NULL,
+  `date` VARCHAR(45) NULL,
   `checked` TINYINT NULL,
   `taskId` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_subtask_tasks1_idx` (`taskId` ASC) VISIBLE,
   CONSTRAINT `fk_subtask_tasks1`
     FOREIGN KEY (`taskId`)
-    REFERENCES `mydb`.`tasks` (`id`)
+    REFERENCES `sql2294502`.`tasks` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
