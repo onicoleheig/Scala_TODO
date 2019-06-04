@@ -51,30 +51,8 @@ class TaskPage extends Component {
     super(props)
 
     this.state = {
-      tasks: [
-        {
-          title: 'Task 1',
-          date: '01.01.2020',
-          description: 'Description 1',
-          checked: false,
-          subtasks: []
-        },
-        {
-          title: 'Task 2',
-          date: '',
-          description: '',
-          checked: false,
-          subtasks: []
-        },
-        {
-          title: 'Task 3',
-          date: '01.01.2020',
-          description: '',
-          checked: false,
-          subtasks: []
-        },
-      ],
-      finishedTasks: props.finishedTasks,
+      tasks: [],
+      finishedTasks: [],
       addTaskTitle: '',
       addTaskDate: '',
       addTaskDescription: ''
@@ -83,6 +61,33 @@ class TaskPage extends Component {
     this.handleOnChange = this.handleOnChange.bind(this)
     this.handleAdd = this.handleAdd.bind(this)
     this.handleOnClickChecked = this.handleOnClickChecked.bind(this)
+  }
+
+  componentWillMount() {
+    //const userId = this.props.match.params.userid;
+      fetch(`http://localhost:9000/users/1/tasks`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      })
+        .then(r => r.json())
+        .then((data) => {
+          let tasks = []
+          let finishedTasks = []
+          if (data.length > 0) {
+            data.map((task) => {
+              if(task.checked) finishedTasks.push(task)
+              else tasks.push(task)
+            });
+          }
+
+          this.setState({
+            tasks: tasks,
+            finishedTasks: finishedTasks
+          }, () => console.log(this.state.tasks))
+        });
   }
 
   handleOnClickChecked(event, task) {
@@ -95,7 +100,8 @@ class TaskPage extends Component {
     let index = tasks.indexOf(task);
 
     task.checked = true
-    task.subtasks.forEach(subtask => subtask.checked = true);
+    // if (task.subtask.length > 0)
+      // task.subtasks.forEach(subtask => subtask.checked = true);
 
     tasks.splice(index, 1)
     finishedTasks.push(task)
@@ -104,24 +110,24 @@ class TaskPage extends Component {
       tasks: tasks,
       finishedTasks: finishedTasks,
     });
-  }
 
-  /*componentWillMount() {
-    //const userId = this.props.match.params.userid;
-      fetch(`http://localhost:9000/users/1/tasks`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      })
-        .then(r => r.json())
-        .then((data) => {
-          this.setState({
-            tasks: data
-          })
-        });
-  }*/
+    let data = {
+      title: task.title,
+      date: task.date,
+      description: task.description,
+      checked: true,
+      userId: task.userId
+    }
+
+    fetch(`http://localhost:9000/tasks/${task.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then(r => r.json());
+  }
 
   handleOnChange(name, event) {
     if (name === 'addTaskDate')
@@ -148,6 +154,23 @@ class TaskPage extends Component {
       addTaskDate: '',
       addTaskDescription: ''
     });
+
+    let data = {
+      title: this.state.addTaskTitle,
+      date: this.state.addTaskDate,
+      description: this.state.addTaskDescription,
+      checked: false,
+      userId: 1
+    }
+
+    fetch(`http://localhost:9000/tasks`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then(r => r.json());
   }
 
   render() {
@@ -180,7 +203,7 @@ class TaskPage extends Component {
             <Typography className={classes.title}>
               Finished Tasks
             </Typography>
-            <TaskList tasks={this.state.finishedTasks}/>
+            <TaskList tasks={this.state.finishedTasks} handleOnClickChecked={this.handleOnClickChecked}/>
           </div>
         </div>
       </MuiThemeProvider>
