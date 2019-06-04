@@ -7,7 +7,7 @@ import slick.jdbc.JdbcProfile
 
 import scala.concurrent.{ExecutionContext, Future}
 
-trait SubtaskComponent {
+trait SubtasksComponent {
   self: HasDatabaseConfigProvider[JdbcProfile] =>
 
   import profile.api._
@@ -17,10 +17,11 @@ trait SubtaskComponent {
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc) // Primary key, auto-incremented
     def title = column[String]("title")
     def date = column[String]("date")
+    def checked = column[Boolean]("checked")
     def taskId = column[Long]("taskId")
 
     // Map the attributes with the model; the ID is optional.
-    def * = (id.?, title, date, taskId) <> (Subtask.tupled, Subtask.unapply)
+    def * = (id.?, title, date, checked, taskId) <> (Subtask.tupled, Subtask.unapply)
   }
 
   // Get the object-oriented list of subtasks directly from the query table.
@@ -28,7 +29,7 @@ trait SubtaskComponent {
 }
 
 @Singleton
-class SubtaskDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends SubtaskComponent with HasDatabaseConfigProvider[JdbcProfile] {
+class SubtasksDAO @Inject()(protected val dbConfigProvider: DatabaseConfigProvider)(implicit executionContext: ExecutionContext) extends SubtasksComponent with HasDatabaseConfigProvider[JdbcProfile] {
   import profile.api._
 
   /** Retrieve the list of subtasks */

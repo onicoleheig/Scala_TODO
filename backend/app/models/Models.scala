@@ -16,4 +16,4 @@ case class User(id: Option[Long], username: String, password: String)
 
 case class Task(id: Option[Long], title: String, date: String, description: String, checked: Boolean, userId: Long)
 
-case class Subtask(id: Option[Long], title: String, date: String, taskId: Long)
+case class Subtask(id: Option[Long], title: String, date: String, checked: Boolean, taskId: Long)

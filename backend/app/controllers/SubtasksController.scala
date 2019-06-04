@@ -1,6 +1,6 @@
 package controllers
 
-import dao.SubtaskDAO
+import dao.SubtasksDAO
 import javax.inject.{Inject, Singleton}
 import models.Subtask
 import play.api.libs.json._
@@ -11,13 +11,14 @@ import play.api.mvc.{AbstractController, ControllerComponents}
 import scala.concurrent.ExecutionContext.Implicits.global
 
 @Singleton
-class SubtaskController @Inject()(cc: ControllerComponents, subtaskDAO: SubtaskDAO) extends AbstractController(cc) {
+class SubtasksController @Inject()(cc: ControllerComponents, subtasksDAO: SubtasksDAO) extends AbstractController(cc) {
 
   // Convert a Subtask-model object into a JsValue representation, which means that we serialize it into JSON.
   implicit val subtaskToJson: Writes[Subtask] = (
     (JsPath \ "id").write[Option[Long]] and
       (JsPath \ "title").write[String] and
       (JsPath \ "date").write[String] and
+      (JsPath \ "checked").write[Boolean] and
       (JsPath \ "taskId").write[Long]
 
     // Use the default 'unapply' method (which acts like a reverted constructor) of the Subtask case class if order to get
@@ -31,6 +32,7 @@ class SubtaskController @Inject()(cc: ControllerComponents, subtaskDAO: SubtaskD
     (JsPath \ "id").readNullable[Long] and
       (JsPath \ "title").read[String](minLength[String](2)) and
       (JsPath \ "date").read[String](minLength[String](2)) and
+      (JsPath \ "checked").read[Boolean] and
       (JsPath \ "taskId").read[Long]
 
     // Use the default 'apply' method (which acts like a constructor) of the Subtask case class with the JsValue in order
@@ -50,7 +52,7 @@ class SubtaskController @Inject()(cc: ControllerComponents, subtaskDAO: SubtaskD
     * The Action.async is used because the request is asynchronous.
     */
   def getSubtasks = Action.async {
-    val subtasksList = subtaskDAO.list()
+    val subtasksList = subtasksDAO.list()
     subtasksList map (s => Ok(Json.toJson(s)))
   }
 
@@ -64,7 +66,7 @@ class SubtaskController @Inject()(cc: ControllerComponents, subtaskDAO: SubtaskD
     // `request.body` contains a fully validated `Subtask` instance, since it has been validated by the `validateJson`
     // helper above.
     val subtask = request.body
-    val createdSubtask = subtaskDAO.insert(subtask)
+    val createdSubtask = subtasksDAO.insert(subtask)
 
     createdSubtask.map(s =>
       Ok(
@@ -81,7 +83,7 @@ class SubtaskController @Inject()(cc: ControllerComponents, subtaskDAO: SubtaskD
     * Get the Subtask identified by the given ID, then return it as JSON.
     */
   def getSubtask(subtaskId: Long) = Action.async {
-    val optionalSubtask = subtaskDAO.findById(subtaskId)
+    val optionalSubtask = subtasksDAO.findById(subtaskId)
 
     optionalSubtask.map {
       case Some(s) => Ok(Json.toJson(s))
@@ -102,7 +104,7 @@ class SubtaskController @Inject()(cc: ControllerComponents, subtaskDAO: SubtaskD
     val newSubtask = request.body
 
     // Try to edit the subtask, then return a 200 OK HTTP status to the client if everything worked.
-    subtaskDAO.update(subtaskId, newSubtask).map {
+    subtasksDAO.update(subtaskId, newSubtask).map {
       case 1 => Ok(
         Json.obj(
           "status" -> "OK",
@@ -120,7 +122,7 @@ class SubtaskController @Inject()(cc: ControllerComponents, subtaskDAO: SubtaskD
     * Try to delete the subtask identified by the given ID, and sends back a JSON response.
     */
   def deleteSubtask(subtaskId: Long) = Action.async {
-    subtaskDAO.delete(subtaskId).map {
+    subtasksDAO.delete(subtaskId).map {
       case 1 => Ok(
         Json.obj(
           "status"  -> "OK",
