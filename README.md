@@ -1,8 +1,8 @@
-# Scala projet
+# Scala projet - ToDo
 
 ### Introduction
 
-Ce document présente le projet TODO réalisé dans le cadre du cours Scala 2018. Le but de ce projet et d'utiliser Scala Play, une base de données Slick ainsi qu'une technologie de front end libre afin de réaliser un projet web.
+Ce document présente le projet ToDo réalisé dans le cadre du cours Scala 2018. Le but de ce projet est d'utiliser Scala Play, une base de données Slick ainsi qu'un front-end en ReactJS.
 
 Les membres du goupe sont :
 
@@ -12,24 +12,24 @@ Les membres du goupe sont :
 
 ### Description du projet
 
-Notre projet consiste en l'implémentation d'une application permettant à des utilisateurs de créer, modifier et terminer des tâches. Le but est que chaque utilisateur ait sa liste de tâches personnalisée et si le temps le permet ajouter le partage avec d'autres utilisateurs.
+Notre projet consiste en l'implémentation d'une application permettant à des utilisateurs de créer, terminer et supprimer des tâches. Le but est que chaque utilisateur ait sa liste de tâches personnalisée.
 
-La création d'une tâche se veut très simple sur l'interface en fournissant simplement un texte court. La terminaison d'une tâche doit se faire simplement en cochant une case affichée à gauche du texte.
+La création d'une tâche se veut très simple sur l'interface en fournissant simplement un titre, une description et une date d'échéance. La terminaison d'une tâche doit se fait simplement en cochant une case affichée à gauche du texte.
 
 ### Implémentation
 
 #### Backend
 
-Nous pensons réaliser un backend REST afin de proposer la création, modification et terminaison de tâche. Le but est que l'on puisse facilement utiliser cette API avec d'autres applications si besoin.
+Nous avons réalisé un backend REST afin de proposer la création, la terminaison et la suppression de tâches. Le but est que l'on puisse facilement utiliser cette API avec d'autres applications si besoin.
 
 #### Frontend
 
-Le front-end sera réalisé en React pour la gestion graphique de l'application. Le but est que cette interface interagisse avec l'API REST afin de simplifier la gestion des listes de todo.
+Le front-end est réalisé en React, avec en support la librairie Material-UI, pour la gestion graphique de l'application. Le but est que cette interface interagisse avec l'API REST afin de simplifier la gestion des listes de ToDO.
 
 #### Base de données
 
-La base de données sera utilisée pour le stockage et la modification des todo. Elle sera également utilisée pour le partage de todo.
+La base de données sera utilisée pour le stockage et la modification des tâches.
 
 #### Autre framework
 
-Nous ne pensons pas utiliser d'autres framework pour le moment.
+Nous n'avons pas utilisé d'autre framework.
