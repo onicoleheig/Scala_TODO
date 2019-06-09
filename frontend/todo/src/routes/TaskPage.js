@@ -51,30 +51,8 @@ class TaskPage extends Component {
     super(props)
 
     this.state = {
-      tasks: [
-        {
-          title: 'Task 1',
-          date: '01.01.2020',
-          description: 'Description 1',
-          checked: false,
-          subtasks: []
-        },
-        {
-          title: 'Task 2',
-          date: '',
-          description: '',
-          checked: false,
-          subtasks: []
-        },
-        {
-          title: 'Task 3',
-          date: '01.01.2020',
-          description: '',
-          checked: false,
-          subtasks: []
-        },
-      ],
-      finishedTasks: props.finishedTasks,
+      tasks: this.props.tasks,
+      finishedTasks: this.props.finishedTasks,
       addTaskTitle: '',
       addTaskDate: '',
       addTaskDescription: ''
@@ -131,6 +109,17 @@ class TaskPage extends Component {
     this.setState({
       [name]: event.target.value
     })
+
+
+    let data = {login_id: 'lionel.nanchen@heig-vd.ch', password: 'lionel'}
+    fetch(`http://localhost:9000/users/1/tasks`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then(r => r.json());
   }
 
   handleAdd(event) {
