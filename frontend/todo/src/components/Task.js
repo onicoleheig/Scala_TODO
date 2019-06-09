@@ -195,6 +195,16 @@ class Task extends Component {
 
   handleDelete(event) {
     event.stopPropagation();
+
+    fetch(`http://localhost:9000/tasks/${this.state.task.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+      });
+
+      window.location.reload();
   }
 
   render() {

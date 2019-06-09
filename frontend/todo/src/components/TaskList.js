@@ -31,8 +31,8 @@ class TaskList extends Component {
     const { classes } = this.props;
     return (
       <MuiThemeProvider theme={theme}>
-        { this.state.tasks.length > 0 ?
-          this.state.tasks.map(task => (
+        { this.props.tasks.length > 0 ?
+          this.props.tasks.map(task => (
             <div className={classes.task}>
               <Task
                 task={task}
