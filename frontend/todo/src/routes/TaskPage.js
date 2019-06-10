@@ -51,13 +51,8 @@ class TaskPage extends Component {
     super(props)
 
     this.state = {
-<<<<<<< HEAD
-      tasks: this.props.tasks,
-      finishedTasks: this.props.finishedTasks,
-=======
       tasks: [],
       finishedTasks: [],
->>>>>>> 0660706589210ed687cfda0b4f3d36cd7bb83a2d
       addTaskTitle: '',
       addTaskDate: '',
       addTaskDescription: ''
@@ -70,29 +65,29 @@ class TaskPage extends Component {
 
   componentWillMount() {
     //const userId = this.props.match.params.userid;
-      fetch(`http://localhost:9000/users/1/tasks`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-      })
-        .then(r => r.json())
-        .then((data) => {
-          let tasks = []
-          let finishedTasks = []
-          if (data.length > 0) {
-            data.map((task) => {
-              if(task.checked) finishedTasks.push(task)
-              else tasks.push(task)
-            });
-          }
+    fetch(`http://localhost:9000/users/1/tasks`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    })
+      .then(r => r.json())
+      .then((data) => {
+        let tasks = []
+        let finishedTasks = []
+        if (data.length > 0) {
+          data.map((task) => {
+            if (task.checked) finishedTasks.push(task)
+            else tasks.push(task)
+          });
+        }
 
-          this.setState({
-            tasks: tasks,
-            finishedTasks: finishedTasks
-          }, () => console.log(this.state.tasks))
-        });
+        this.setState({
+          tasks: tasks,
+          finishedTasks: finishedTasks
+        }, () => console.log(this.state.tasks))
+      });
   }
 
   handleOnClickChecked(event, task) {
@@ -106,7 +101,7 @@ class TaskPage extends Component {
 
     task.checked = true
     // if (task.subtask.length > 0)
-      // task.subtasks.forEach(subtask => subtask.checked = true);
+    // task.subtasks.forEach(subtask => subtask.checked = true);
 
     tasks.splice(index, 1)
     finishedTasks.push(task)
@@ -144,7 +139,7 @@ class TaskPage extends Component {
     })
 
 
-    let data = {login_id: 'lionel.nanchen@heig-vd.ch', password: 'lionel'}
+    let data = { login_id: 'lionel.nanchen@heig-vd.ch', password: 'lionel' }
     fetch(`http://localhost:9000/users/1/tasks`, {
       method: 'PUT',
       headers: {
@@ -157,6 +152,7 @@ class TaskPage extends Component {
 
   handleAdd(event) {
     let tasks = this.state.tasks
+    if (this.state.addTaskTitle === "") return
     tasks.push({
       title: this.state.addTaskTitle,
       description: this.state.addTaskDescription,
@@ -190,7 +186,7 @@ class TaskPage extends Component {
   }
 
   render() {
-    const {classes} = this.props;
+    const { classes } = this.props;
     return (
       <MuiThemeProvider theme={theme}>
         <div>
@@ -212,14 +208,14 @@ class TaskPage extends Component {
             <TaskList
               tasks={this.state.tasks}
               handleOnClickChecked={this.handleOnClickChecked}
-              />
+            />
           </div>
-          <hr className={classes.horizontalLine}/>
+          <hr className={classes.horizontalLine} />
           <div>
             <Typography className={classes.title}>
               Finished Tasks
             </Typography>
-            <TaskList tasks={this.state.finishedTasks} handleOnClickChecked={this.handleOnClickChecked}/>
+            <TaskList tasks={this.state.finishedTasks} handleOnClickChecked={this.handleOnClickChecked} />
           </div>
         </div>
       </MuiThemeProvider>
