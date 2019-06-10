@@ -126,7 +126,7 @@ class TaskPage extends Component {
         Accept: 'application/json',
       },
       body: JSON.stringify(data)
-    }).then(r => r.json());
+    }).then();
   }
 
   handleOnChange(name, event) {
@@ -140,14 +140,6 @@ class TaskPage extends Component {
 
 
     let data = { login_id: 'lionel.nanchen@heig-vd.ch', password: 'lionel' }
-    fetch(`http://localhost:9000/users/1/tasks`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(data)
-    }).then(r => r.json());
   }
 
   handleAdd(event) {
